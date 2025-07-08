@@ -1,0 +1,31 @@
+llm:
+  provider: openai
+  
+  model: gpt-4o
+  openai_api_key: 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
+
+  ollama:
+    model: llama3.1
+    base_url: http://localhost:11434  
+
+  bedrock:
+    model: anthropic.claude-3-sonnet-20240229-v1:0
+    region_name: us-east-1
+    aws_access_key_id: YOUR_AWS_ACCESS_KEY_ID
+    aws_secret_access_key: YOUR_AWS_SECRET_ACCESS_KEY
+      
+tools:
+  medgemma:
+    mode: remote     
+    endpoint: http://localhost:8001/predict
+  retriver:
+    mode: remote
+    endpoint: http://localhost:8002/query
+    
+  websearch:
+    provider: tavily      # Options: tavily | openai
+    openai_model: gpt-4.1
+    openai_api_key: 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 
+    tavily_api_key: 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
+    serpapi_api_key: 481f4a78a51d069a3463d5f27dbffc28248eddbe0041153560cd88c9304284c4
+    
