@@ -39,7 +39,7 @@ with open(config_path) as f:
 
 def load_prompt_txt():
     base_path = os.path.dirname(os.path.abspath(__file__))  # Path to agent_runner.py
-    prompt_path = os.path.join(base_path, "agent_prompt.txt")
+    prompt_path = os.path.join(base_path, "agent_prompt2.txt")
     with open(prompt_path, "r") as f:
         return f.read().strip()
 
@@ -57,65 +57,23 @@ memory = MemorySaver()
 agent_executor = create_react_agent(llm, tools, checkpointer=memory, prompt=custom_prompt)
 config = {"configurable": {"thread_id": "medrag_agent_123"}}
 
-# def call_agent(qry):
-#     input_message = {"role": "user", "content": qry}
-#     seen_ids = set()
-
-#     for step in agent_executor.stream({"messages": [input_message]}, config, stream_mode="values"):
-#         if "messages" in step:
-#             for msg in step["messages"]:
-#                 msg_id = id(msg)  # unique per object instance
-#                 if msg_id in seen_ids:
-#                     continue
-#                 seen_ids.add(msg_id)
-
-#                 if isinstance(msg, HumanMessage):
-#                     yield {"type": "human", "data": msg.content}
-#                 elif isinstance(msg, AIMessage):
-#                     yield {"type": "ai", "data": msg.content}
-#                 elif isinstance(msg, ToolMessage):
-#                     yield {"type": "tool", "data": msg.content}
-#                 else:
-#                     yield {"type": "unknown", "data": str(msg)}
-
 
 def call_agent(qry):
     input_message = {"role": "user", "content": qry}
-    seen_ids = set()
+    last_msg = None
 
-    # Step 1: Yield a plan message first
-    plan = {
-        "type": "plan",
-        "data": {
-            "steps": [
-                {"step": "Analyze medical image", "tool": "medgemma_tool"},
-                {"step": "Search local medical DB", "tool": "medclip_tool"},
-                {"step": "Search medical web sources", "tool": "websearch_tool"}
-            ]
-        }
-    }
-    yield plan
-
-    # Step 2: Stream all responses from agent_executor
     for step in agent_executor.stream({"messages": [input_message]}, config, stream_mode="values"):
         if "messages" in step:
             for msg in step["messages"]:
-                msg_id = id(msg)
-                if msg_id in seen_ids:
-                    continue
-                seen_ids.add(msg_id)
-
                 if isinstance(msg, HumanMessage):
-                    yield {"type": "human", "data": msg.content}
+                    last_msg = {"type": "human", "data": msg.content}
                 elif isinstance(msg, AIMessage):
-                    yield {"type": "ai", "data": msg.content}
+                    last_msg = {"type": "ai", "data": msg.content}
                 elif isinstance(msg, ToolMessage):
-                    yield {"type": "tool", "data": msg.content}
+                    last_msg = {"type": "tool", "data": msg.content}
                 else:
-                    yield {"type": "unknown", "data": str(msg)}
+                    last_msg = {"type": "unknown", "data": str(msg)}
 
+    if last_msg is not None:
+        yield last_msg
 
-
-
-
-        
