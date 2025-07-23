@@ -129,7 +129,6 @@ async def agent_websocket(websocket: WebSocket):
                     }))
                     continue
 
-
             final_input_str = f"Query: {query}\nImage: {image_flag}\nImage Path: {image_file_path}"
 
             # Deduplication logic
@@ -181,7 +180,7 @@ async def agent_websocket(websocket: WebSocket):
                     anyio.from_thread.run(async_send, step)
 
             def stream():
-                for response in call_agent(final_input_str):
+                for response in call_agent(query, image=image_flag, image_path=image_file_path):
                     if response is None:
                         continue
                         

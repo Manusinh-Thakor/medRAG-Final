@@ -22,15 +22,50 @@ def medgemma_tool(image_path: str, ) -> str:
     """
     
     if dummy:
-        return """The chest X-ray shows a posteroanterior (PA) view of the thorax with proper inspiration and no significant rotation. The trachea appears central, and the cardiac silhouette is within  normal limits. The bony structures, including ribs, clavicles, and shoulders, appear intact.
+        return """1.  **Technical Assessment:**
+    *   Image Type: PA Chest X-ray
+    *   Positioning: Standard
+    *   Technical Quality: Good
 
-On closer inspection of the lung fields, the left lung appears clear, but there is a distinct abnormality in the right lung. Specifically, in the mid-lung zone of the right lung field, there is a solitary, dense opacity. This lesion is relatively well defined but irregular in shape. There are no visible air bronchograms within the lesion, which reduces the likelihood of it being a simple pneumonia or consolidation. Furthermore, there is no evidence of cavitation or calcification, which argues against conditions such as tuberculosis or a benign granuloma.
+2.  **Visual Findings:**
+    *   Lungs: No obvious consolidation, nodules, or pleural effusions.
+    *   Pleura: No visible pleural effusion or pneumothorax.
+    *   Heart/Mediastinum: Heart size appears within normal limits. No mediastinal shift.
+    *   Diaphragm/Bones: Diaphragms are visible. No obvious fractures or calcifications.
 
-The absence of features such as satellite nodules, calcified borders, or central cavitation makes infectious causes like TB less likely. Similarly, the lesion does not show characteristics of benign tumors like hamartoma, which often appear as well-circumscribed nodules with "popcorn" calcification.
+3.  **Abnormalities and Interpretation:**
+    *   No focal consolidation, nodules, or pleural effusions are identified.
+    *   The heart size appears within normal limits.
+    *   The mediastinum is unremarkable.
+    *   The diaphragms are visible.
 
-Given the solitary nature of the lesion, its size, and its irregular borders, a neoplastic process must be considered. The most likely diagnosis based on these radiographic findings is a primary lung malignancy, such as bronchogenic carcinoma. This is especially concerning in the context of a middle-aged or older adult, particularly if there is a history of smoking.
+4.  **Diagnostic Reasoning:**
+    *   The absence of focal consolidation, nodules, or pleural effusions suggests that there are no obvious infectious or inflammatory processes affecting the lungs or pleura.
+    *   The heart size appears within normal limits, and there is no mediastinal shift, which suggests that there is no significant cardiac enlargement or compression of the mediastinum.
+    *   The diaphragms are visible, which confirms that they are not obscured by any pathology.
 
-In conclusion, the X-ray demonstrates a solitary pulmonary mass in the right mid-lung zone, with radiographic features most consistent with a primary bronchogenic carcinoma. Further imaging with contrast-enhanced CT and tissue biopsy would be necessary to confirm the diagnosis and guide management."""
+5.  **Final Diagnosis:**
+    *   No acute abnormalities detected.
+
+6.  **Confidence Level:**
+    *   High
+
+7.  **Supporting Evidence:**
+    *   The image shows no obvious signs of pneumonia, pulmonary edema, or pleural effusion.
+    *   The heart size appears within normal limits, and there is no mediastinal shift.
+    *   The diaphragms are visible, which confirms that they are not obscured by any pathology.
+
+8.  **Limitations:**
+    *   The image may not be sensitive enough to detect subtle abnormalities.
+    *   The image may be affected by factors such as patient positioning or technical artifacts.
+
+9.  **Conclusion:**
+    *   The chest X-ray shows no acute abnormalities.
+    *   The heart size appears within normal limits.
+    *   The mediastinum is unremarkable.
+    *   The diaphragms are visible.
+    *   No focal consolidation, nodules, or pleural effusions are identified.
+    *   The absence of focal consolidation, nodules, or pleural effusions suggests that there"""
     
     try:
         with open(image_path, "rb") as f:
@@ -43,7 +78,8 @@ In conclusion, the X-ray demonstrates a solitary pulmonary mass in the right mid
         }
 
         headers = {"Content-Type": "application/json"}
-        response = requests.post("http://3.27.23.79:8000/predict", json=payload, headers=headers)
+        response = requests.post("http://3.24.74.65:8000/predict", json=payload, headers=headers)
+
 
         if response.status_code == 200:
             return response.json().get("response", "No response field found.")
