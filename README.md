@@ -167,6 +167,8 @@ MedRAG is designed only for **non-commercial educational and research purposes**
 
 ### 🧠 AI Models
 
+[Models Uploaded on Huggingface](https://huggingface.co/Manusinhh) - HuggingFace Repo
+
 | Model                   | Role                                                            |
 | ----------------------- | --------------------------------------------------------------- |
 | **medGEMMA Reasoner**   | Generates structured reasoning from chest X-ray images          |
@@ -189,6 +191,8 @@ MedRAG is designed only for **non-commercial educational and research purposes**
 ---
 
 ### 📊 Dataset
+
+[Dataset Uploaded on Huggingface](https://huggingface.co/Manusinhh) - HuggingFace Repo
 
 | Dataset                     | Description                                                            |
 | --------------------------- | ---------------------------------------------------------------------- |
