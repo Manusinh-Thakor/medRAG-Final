@@ -1,92 +1,167 @@
+
 <p align="center">
   <img src="images/medrag_logo-2.png" alt="MedRAG Logo" width="200"/>
 </p>
 
-<h1 align="center">MedRAG: Medical Image Analysis & Retrieval-Augmented Generation</h1>
+<h1 align="center">🧠 MedRAG: Medical Image Analysis & Retrieval-Augmented Generation</h1>
 
-**MedRAG** is a modular, multimodal AI system developed for **learning and research purposes** in the field of medical imaging and explainable artificial intelligence. It provides a coordinated pipeline that combines medical image interpretation, diagnostic reasoning, and retrieval of similar cases from both local databases and online sources.
+---
+
+## 🔍 Overview
+
+**MedRAG** is a flexible AI system designed for educational and research use in medical imaging, with a focus on chest X-rays. It combines three key functions:
+
+* Interpreting chest X-rays using a fine-tuned model
+* Generating step-by-step diagnostic reasoning
+* Retrieving similar X-ray images for comparison and context
+
+The system is trained specifically on the **NIH Chest X-ray Dataset**, making it suitable for thoracic imaging tasks such as identifying lung, pleural, and heart-related conditions. Retrieved reference images come from a local medical database and trusted online sources.
 
 ---
 
 ## 🩺 Project Vision
 
-The goal of MedRAG is to explore how AI can support medical decision-making by:
+MedRAG aims to explore how AI can support medical decision-making by:
 
-* Generating structured diagnostic reasoning from medical images
-* Retrieving visually and semantically similar clinical cases
-* Expanding context through medically relevant web search
-
-This project is built strictly for **educational exploration**, with a strong emphasis on transparency, explainability, and controlled tool orchestration.
+* Producing clear, structured diagnostic reasoning from chest X-ray images
+* Finding similar cases from a local image database to support visual interpretation
+* Fetching related medical images and content from the web to expand diagnostic context
 
 ---
 
-## ⚙️ System Pipeline
+## 🔄 MedRAG System Pipeline
 
-MedRAG operates in a staged sequence:
+### 🖥️ Frontend Layer: MedRAG Web UI
 
-### 1. **Image Understanding**
+* Users submit a query or image through the web interface
+* The query is forwarded to the backend for AI processing
 
-Processes radiological images (e.g., chest X-rays) and outputs a step-wise explanation of the observed findings, along with a suggested diagnosis. The reasoning aims to emulate how a radiologist might explain the decision path.
+---
 
-### 2. **Similar Case Retrieval**
+### 🧠 AI Coordination Layer: MedRAG Agent
 
-Searches a local medical image database to retrieve clinically similar examples based on the diagnostic content. These examples help ground the diagnosis in prior visual cases.
+* Runs on an AWS EC2 instance
+* Controls the full reasoning pipeline
+* Based on input, the agent:
 
-### 3. **Web-based Evidence Retrieval**
+  * Sends the image to reasoning models
+  * Extracts the disease name
+  * Selects and invokes the appropriate tools (retrieval, web search, or both)
 
-Queries trusted online medical sources to fetch related images or articles, offering broader medical context around the diagnosis.
+---
 
-### System Architecture
+### 🧠 Stage 1 – Chest X-ray Analysis (SageMaker Endpoint 1)
 
-![MedRAG Architecture](images/medrag-architecture2.drawio.svg)
+#### 🔹 1. medGEMMA Reasoner
+
+* **Input**: Chest X-ray image
+* **Output**: A detailed, structured reasoning chain
+
+#### 🔹 2. medGEMMA Summariser
+
+* **Input**: Output from the reasoner
+* **Output**: A diagnostic summary (e.g., disease name)
+
+---
+
+### 🔍 Stage 2 – Similar Case Retrieval (SageMaker Endpoint 2)
+
+* **Tool**: medCLIP + FAISS
+* **Input**: Disease label
+* **Process**: Vector search in local image database
+* **Output**: Top matching chest X-rays
+
+---
+
+### 🌐 Stage 3 – Web-Based Context Retrieval
+
+* **Tool**: serpAPI
+* **Input**: Disease label
+* **Output**: Online medical images and articles for additional context
+
+---
+
+### 📤 Streaming Results to UI
+
+The AI agent returns results in real time:
+
+1. Reasoning explanation
+2. Diagnostic summary
+3. Retrieved similar images
+4. Web-based content
+
+All results are shown step by step in the web UI.
 
 ---
 
 ## 🧠 AI Agent Orchestration
 
-The system is governed by a coordination agent that:
 
-* Determines the necessary tools and order of execution
-* Streams each result to the user in real time, step by step
-* Enforces domain restrictions (medical-only)
-* Avoids final conclusions—only provides evidence and reasoning flow
+## 🧱 Diagram
+
+![System Architecture](images/medrag-interface.drawio.svg)
+
+
+The agent acts as the central controller for the MedRAG workflow. It performs the following:
+
+### 🔁 Step-by-Step Flow:
+
+1. **Input Handling**: Accepts image and/or query
+2. **Reasoning**: Sends image to medGEMMA Reasoner
+3. **Summarization**: Uses the Summariser to get the final disease label
+4. **Tool Selection**:
+
+   * medCLIP for local retrieval
+   * serpAPI for web image and content search
+5. **Response Streaming**: Sends each output step-by-step to the UI
+6. **Domain Enforcement**: Only accepts medical queries; ignores unrelated input
 
 ---
 
-### Live Demo (GIF)
+## 🧱 System Architecture
 
-![MedRAG Demo](images/medrag_gif.gif)
+![System Architecture](images/medrag-architecture2.drawio.svg)
+
+---
+
+## 🎥 Live Demo
+
+![Live Demo](images/medrag_gif.gif)
+
+---
 
 ## 🎯 Intended Use
 
-MedRAG is intended **only for non-commercial educational and research use**. It is not designed, validated, or authorized for clinical deployment or medical advice. The system exists as a demonstration of how retrieval-augmented AI pipelines can be structured and studied within a controlled setting.
+MedRAG is designed only for **non-commercial educational and research purposes**. It is not validated for clinical use and should not be used for medical diagnosis or treatment planning.
 
 ---
 
 ## 💡 Core Principles
 
-* **Learning-first**: Developed to study multimodal reasoning and retrieval
-* **Transparency**: Every output is labeled and streamed clearly
-* **Modularity**: Each component is independently pluggable
-* **No hallucination**: Reasoning is supported by retrieval and evidence
-* **Medical domain only**: All queries outside medicine are rejected
+* **Research-focused**: Built to study multimodal reasoning in medical imaging
+* **Transparent**: All results are streamed and labeled step-by-step
+* **Modular**: Components (models, tools) can be replaced independently
+* **Grounded**: Combines AI with retrieval to avoid unsupported answers
+* **Domain-restricted**: Only processes queries related to medical imaging
 
 ---
 
 ## 📚 References
 
-The MedRAG project draws inspiration and methodology from the following research and tools:
+MedRAG is built using open research tools and datasets:
 
-* [LLaVA-Med](https://github.com/microsoft/LLaVA-Med) – Vision-language instruction tuning for medical imaging
-* [MedGEMMA](https://huggingface.co/google/medgemma-4b-it) – Open vision-language model fine-tuned for medical image understanding
-* [MedCLIP](https://github.com/UCSD-AI4H/MedCLIP) – Medical image-text embedding and retrieval
-* [LangChain](https://github.com/langchain-ai/langchain) – Framework for agent-based reasoning
-* [LangGraph](https://github.com/langchain-ai/langgraph) – Graph-based control flow for multi-step AI systems
-* [Tavily API](https://www.tavily.com/) / [SerpAPI](https://serpapi.com/) – Web search interfaces for medical context retrieval
-* NIH Chest X-ray Dataset – Public dataset for medical image research
+* [LLaVA-Med](https://github.com/microsoft/LLaVA-Med) – Instruction-tuned VLM
+* [MedGEMMA](https://huggingface.co/google/medgemma-4b-it) – Fine-tuned chest X-ray model
+* [MedCLIP](https://github.com/UCSD-AI4H/MedCLIP) – Image-text embedding for medical retrieval
+* [LangChain](https://github.com/langchain-ai/langchain) – Tool orchestration framework
+* [LangGraph](https://github.com/langchain-ai/langgraph) – Agent state management
+* [SerpAPI](https://serpapi.com/) / [Tavily API](https://www.tavily.com/) – Medical web search tools
+* **NIH Chest X-ray Dataset** – Dataset used for training and reasoning generation
 
 ---
 
-> ⚠️ **Disclaimer**: MedRAG is a research prototype built for academic exploration only. It is **not a diagnostic tool** and must not be used for clinical decision-making.
+## ⚠️ Disclaimer
+
+This is a research prototype. **MedRAG is not a diagnostic tool** and must not be used in clinical or real-world healthcare decisions.
 
 ---
