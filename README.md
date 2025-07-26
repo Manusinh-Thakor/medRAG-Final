@@ -17,6 +17,16 @@
 
 The system is trained specifically on the **NIH Chest X-ray Dataset**, making it suitable for thoracic imaging tasks such as identifying lung, pleural, and heart-related conditions. Retrieved reference images come from a local medical database and trusted online sources.
 
+Yes, you can absolutely add that — and it's a great way to clarify the motivation behind the project while still keeping the disclaimer clear.
+
+Here’s a clean, professional way to phrase and include it in your `README.md`:
+
+---
+
+## ⚡ Project Motivation
+
+The core idea behind MedRAG is to reduce the manual effort doctors often spend searching for similar chest X-ray cases — whether in internal databases or on the web. By automating reasoning and retrieval, MedRAG aims to support medical education and streamline early stage investigation.
+
 ---
 
 ## 🩺 Project Vision
@@ -139,13 +149,50 @@ MedRAG is designed only for **non-commercial educational and research purposes**
 
 ---
 
-## 💡 Core Principles
+## 🛠️ Technologies & Tools Used
 
-* **Research-focused**: Built to study multimodal reasoning in medical imaging
-* **Transparent**: All results are streamed and labeled step-by-step
-* **Modular**: Components (models, tools) can be replaced independently
-* **Grounded**: Combines AI with retrieval to avoid unsupported answers
-* **Domain-restricted**: Only processes queries related to medical imaging
+### 💻 Core Frameworks & Infrastructure
+
+| Technology        | Purpose                                          |
+| ----------------- | ------------------------------------------------ |
+| **Python**        | Core programming language                        |
+| **FastAPI**       | Web backend (API layer)                          |
+| **LangChain**     | Tool-based reasoning and agent orchestration     |
+| **LangGraph**     | Multi-step agent flow with state management      |
+| **AWS EC2**       | Agent hosting and coordination (inference logic) |
+| **AWS SageMaker** | Hosting MedGEMMA and medCLIP models              |
+| **FAISS**         | Local vector search for image retrieval          |
+
+---
+
+### 🧠 AI Models
+
+| Model                   | Role                                                            |
+| ----------------------- | --------------------------------------------------------------- |
+| **medGEMMA Reasoner**   | Generates structured reasoning from chest X-ray images          |
+| **medGEMMA Summariser** | Converts reasoning into a concise diagnostic summary            |
+| **medCLIP**             | Embeds and retrieves similar chest X-rays from a local database |
+
+---
+
+### 📦 Libraries & APIs
+
+| Library / API            | Purpose                                              |
+| ------------------------ | ---------------------------------------------------- |
+| **transformers**         | Model loading and inference for MedGEMMA and medCLIP |
+| **torch / torchvision**  | Image and tensor processing                          |
+| **openai**               | LLM reasoning fallback or interface        |
+| **serpAPI / Tavily API** | Web search for external images and context           |
+| **python-dotenv**        | Environment variable handling                        |
+| **pydantic**             | Data validation and schema management                |
+
+---
+
+### 📊 Dataset
+
+| Dataset                     | Description                                                            |
+| --------------------------- | ---------------------------------------------------------------------- |
+| **NIH Chest X-ray Dataset** | Public dataset used to fine-tune reasoning models on thoracic findings |
 
 ---
 
