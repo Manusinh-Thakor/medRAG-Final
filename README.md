@@ -1,4 +1,4 @@
-# 🧠 MedRAG: Medical Image Analysis and Retrieval-Augmented Generation
+# 🧠 MedRAG: Medical Image Analysis & Retrieval-Augmented Generation
 
 **MedRAG** is a modular, multimodal AI system developed for **learning and research purposes** in the field of medical imaging and explainable artificial intelligence. It provides a coordinated pipeline that combines medical image interpretation, diagnostic reasoning, and retrieval of similar cases from both local databases and online sources.
 
