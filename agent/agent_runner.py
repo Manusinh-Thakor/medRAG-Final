@@ -62,7 +62,7 @@ def image_pipeline_openai(query: str, image_path: str):
     search_prompt = f"Extract a concise medical search phrase (2-3 words) to find similar cases based on this radiology report:\n\n{medgemma_result}"
     search_term = 'a chest xray of ' + openai_llm.invoke(search_prompt).content.strip()
     print(f"\U0001F50D Search term: {search_term}")
-    time.sleep(1)
+    time.sleep(3)
 
     print("\U0001F4E6 Stage: MedCLIP")
     try:
@@ -73,7 +73,7 @@ def image_pipeline_openai(query: str, image_path: str):
     except Exception as e:
         print(f"\u274C MedCLIP error: {e}")
         yield {"type": "db_images", "data": []}
-    time.sleep(1)
+    time.sleep(3)
 
     print("\U0001F4E6 Stage: Web Search")
     try:
@@ -84,11 +84,11 @@ def image_pipeline_openai(query: str, image_path: str):
     except Exception as e:
         print(f"\u274C Web search error: {e}")
         yield {"type": "web_images", "data": []}
-    time.sleep(1)
+    time.sleep(3)
 
     yield {"type": "ai", "data": "All tool outputs have been streamed."}
 
-pipe = False
+pipe = True
 
 def call_agent(qry, image=False, image_path=None):
     print("\U0001F4E9 call_agent got:", qry, image, image_path)

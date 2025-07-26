@@ -189,7 +189,7 @@ async def agent_websocket(websocket: WebSocket):
                     # Parse the response into step
                     step = parse_step_response(response)
                     if step:
-                        print(f"[Sending step] {step["type"]}")
+                        print(f"[Sending step] {step}")
                         safe_send(step)
 
             await anyio.to_thread.run_sync(stream)
