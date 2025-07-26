@@ -29,6 +29,18 @@ MedRAG aims to explore how AI can support medical decision-making by:
 
 ---
 
+## 🧱 Flow Diagram
+
+![System Architecture](images/medrag-interface.drawio.svg)
+
+---
+
+## 🧱 System Architecture
+
+![System Architecture](images/medrag-architecture2.drawio.svg)
+
+---
+
 ## 🔄 MedRAG System Pipeline
 
 ### 🖥️ Frontend Layer: MedRAG Web UI
@@ -96,12 +108,6 @@ All results are shown step by step in the web UI.
 
 ## 🧠 AI Agent Orchestration
 
-
-## 🧱 Diagram
-
-![System Architecture](images/medrag-interface.drawio.svg)
-
-
 The agent acts as the central controller for the MedRAG workflow. It performs the following:
 
 ### 🔁 Step-by-Step Flow:
@@ -118,9 +124,6 @@ The agent acts as the central controller for the MedRAG workflow. It performs th
 
 ---
 
-## 🧱 System Architecture
-
-![System Architecture](images/medrag-architecture2.drawio.svg)
 
 ---
 
