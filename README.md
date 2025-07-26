@@ -41,6 +41,14 @@ MedRAG aims to explore how AI can support medical decision-making by:
 
 ---
 
+---
+
+## 🎥 Live Demo
+
+![Live Demo](images/medrag_gif.gif)
+
+---
+
 ## 🔄 MedRAG System Pipeline
 
 ### 🖥️ Frontend Layer: MedRAG Web UI
@@ -124,14 +132,6 @@ The agent acts as the central controller for the MedRAG workflow. It performs th
 
 ---
 
-
----
-
-## 🎥 Live Demo
-
-![Live Demo](images/medrag_gif.gif)
-
----
 
 ## 🎯 Intended Use
 
