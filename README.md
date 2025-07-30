@@ -17,10 +17,6 @@
 
 The system is trained specifically on the **NIH Chest X-ray Dataset**, making it suitable for thoracic imaging tasks such as identifying lung, pleural, and heart-related conditions. Retrieved reference images come from a local medical database and trusted online sources.
 
-Yes, you can absolutely add that — and it's a great way to clarify the motivation behind the project while still keeping the disclaimer clear.
-
-Here’s a clean, professional way to phrase and include it in your `README.md`:
-
 ---
 
 ## ⚡ Project Motivation
