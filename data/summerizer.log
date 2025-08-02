@@ -1,0 +1,25 @@
+nohup: ignoring input
+🔹 Stage 1: Loading and formatting summariser dataset
+[3547] Skipping due to error: Missing reasoning or impression.
+[8174] Skipping due to error: Missing reasoning or impression.
+✅ Stage 1 complete: Converted and cached 9998 examples
+{'text': '<s>[INST] Summarise the following clinical reasoning into a concise radiology impression:\n\nStep 1: Evaluate Lung Fields\nThe lungs are clear of focal consolidation, pleural effusion or pneumothorax, suggesting no acute pulmonary pathology.\n\nStep 2: Assess Cardiac Size\nThe heart size is normal, which is reassuring.\n\nStep 3: Inspect Mediastinal Structures\nThe mediastinal contours are normal, indicating no significant mediastinal abnormalities.\n\nStep 4: Identify Surgical History\nMultiple surgical clips project over the left breast, indicating a prior surgical procedure, likely a breast biopsy or removal.\n\nStep 5: Note Skeletal Findings\nOld left rib fractures are noted, suggesting a possible history of trauma or surgery.\n[/INST] No acute cardiopulmonary process.</s>'}
+✅ Stage 1 complete: Successfully formatted 9998 examples
+🔹 Stage 2: Loading model and tokenizer
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.47s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:04<00:00,  2.38s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:04<00:00,  2.40s/it]
+average_tokens_across_devices is set to True but it is invalid when world size is1. Turn it to False automatically.
+✅ Stage 2 complete: Model and tokenizer loaded
+✅ Stage 3 complete: Collator ready
+🔹 Stage 4: Applying LoRA configuration
+✅ Stage 4 complete: LoRA config applied
+🔹 Stage 5: Splitting dataset
+✅ Saved validation set to pre_summariser_val_data_cache.pkl
+✅ Saved test set to test_summariser_data_cache.pkl
+🔹 Stage 6: Configuring training
+✅ Stage 6 complete
+🔹 Stage 7: Starting training
+Traceback (most recent call last):
+  File "/workspace/medgemma/train-summerizer-model.py", line 188, in <module>
+    trainer = SFTTrainer(
+              ^^^^^^^^^^^
+TypeError: SFTTrainer.__init__() got an unexpected keyword argument 'tokenizer'
