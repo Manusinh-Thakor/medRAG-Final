@@ -14,11 +14,15 @@
 * Generation of structured diagnostic reasoning
 * Retrieval of similar medical images from local and web sources
 
-The system is trained on a **custom-generated dataset**:
+The system is trained on a **custom-generated dataset created and published by the author**:
 
 > [CXR-10k Reasoning Dataset (Hugging Face)](https://huggingface.co/datasets/Manusinhh/cxr-10k-reasoning-dataset)
 
-This reasoning dataset and model design draw inspiration from the methodology proposed in the **Insight-V** paper and repository:
+This dataset was curated by aggregating over 10,000 chest X-ray images and their associated metadata and report texts from **MIMIC-CXR**. The author generated step-by-step diagnostic reasoning and summary outputs from these findings to build the training corpus.
+
+Details of the dataset preparation, formatting, and annotation guidelines are available on the dataset’s [Hugging Face README](https://huggingface.co/datasets/Manusinhh/cxr-10k-reasoning-dataset).
+
+The reasoning model design and fine-tuning pipeline are inspired by the **Insight-V** methodology:
 
 > [Insight-V GitHub](https://github.com/JoshuaChou2018/Insight-V)
 > [Insight-V Paper](https://arxiv.org/abs/2312.11511)
@@ -81,12 +85,13 @@ MedRAG explores the integration of multimodal AI in medicine by:
 
 * **Input**: Chest X-ray image
 * **Output**: Structured, step-wise diagnostic reasoning
-* **Note**: Built using Insight-V methodology for visual instruction tuning
+* **Note**: Fine-tuned by the author using the custom reasoning dataset derived from MIMIC-CXR, following Insight-V methodology
 
 #### 🔹 2. MedGEMMA Summariser ([Link](https://huggingface.co/Manusinhh/medgemma-finetuned-cxr-summerizer))
 
 * **Input**: Reasoning output
 * **Output**: Concise diagnostic label or summary
+* **Note**: Also fine-tuned by the author using the same dataset
 
 ---
 
@@ -152,17 +157,17 @@ This project is **strictly for research and academic purposes**. It is **not int
 
 ### 🧠 AI Models
 
-| Model Name                            | Role                                             |
-| ------------------------------------- | ------------------------------------------------ |
-| **medgemma-finetuned-cxr-reasoning**  | Generates diagnostic reasoning from CXR images   |
-| **medgemma-finetuned-cxr-summerizer** | Converts reasoning into concise summaries        |
-| **medCLIP**                           | Retrieves similar chest X-rays via vector search |
+| Model Name                            | Role                                                                                |
+| ------------------------------------- | ----------------------------------------------------------------------------------- |
+| **medgemma-finetuned-cxr-reasoning**  | Generates diagnostic reasoning from CXR images (trained and uploaded by the author) |
+| **medgemma-finetuned-cxr-summerizer** | Converts reasoning into concise summaries (trained and uploaded by the author)      |
+| **medCLIP**                           | Retrieves similar chest X-rays via vector search                                    |
 
 ### 📆 Dataset
 
-| Dataset Name                  | Description                                             |
-| ----------------------------- | ------------------------------------------------------- |
-| **cxr-10k-reasoning-dataset** | Custom dataset for training reasoning and summarization |
+| Dataset Name                  | Description                                                                                                                                                |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **cxr-10k-reasoning-dataset** | Custom dataset derived from MIMIC-CXR. Includes image paths, findings, impressions, and structured reasoning—created, cleaned, and uploaded by the author. |
 
 ---
 
@@ -174,6 +179,7 @@ This project is **strictly for research and academic purposes**. It is **not int
 * [MedGEMMA Base](https://huggingface.co/google/medgemma-4b-it)
 * [Insight-V (GitHub)](https://github.com/JoshuaChou2018/Insight-V)
 * [Insight-V (Paper)](https://arxiv.org/abs/2312.11511)
+* [MIMIC-CXR Dataset](https://physionet.org/content/mimic-cxr/2.0.0/)
 * [LLaVA-Med](https://github.com/microsoft/LLaVA-Med)
 * [MedCLIP](https://github.com/UCSD-AI4H/MedCLIP)
 * [LangChain](https://github.com/langchain-ai/langchain)
