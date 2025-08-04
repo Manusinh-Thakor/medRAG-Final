@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="images/medrag_logo-2.png" alt="MedRAG Logo" width="200"/>
 </p>
@@ -9,29 +8,36 @@
 
 ## 🔍 Overview
 
-**MedRAG** is a flexible AI system designed for educational and research use in medical imaging, with a focus on chest X-rays. It combines three key functions:
+**MedRAG** is a modular AI system developed for **educational and research use** in medical imaging, focused on **chest X-rays**. It performs three primary functions:
 
-* Interpreting chest X-rays using a fine-tuned model
-* Generating step-by-step diagnostic reasoning
-* Retrieving similar X-ray images for comparison and context
+* Chest X-ray interpretation using fine-tuned models
+* Generation of structured diagnostic reasoning
+* Retrieval of similar medical images from local and web sources
 
-The system is trained specifically on the **NIH Chest X-ray Dataset**, making it suitable for thoracic imaging tasks such as identifying lung, pleural, and heart-related conditions. Retrieved reference images come from a local medical database and trusted online sources.
+The system is trained on a **custom-generated dataset**:
+
+> [CXR-10k Reasoning Dataset (Hugging Face)](https://huggingface.co/datasets/Manusinhh/cxr-10k-reasoning-dataset)
+
+This reasoning dataset and model design draw inspiration from the methodology proposed in the **Insight-V** paper and repository:
+
+> [Insight-V GitHub](https://github.com/JoshuaChou2018/Insight-V)
+> [Insight-V Paper](https://arxiv.org/abs/2312.11511)
 
 ---
 
 ## ⚡ Project Motivation
 
-The core idea behind MedRAG is to reduce the manual effort doctors often spend searching for similar chest X-ray cases — whether in internal databases or on the web. By automating reasoning and retrieval, MedRAG aims to support medical education and streamline early stage investigation.
+MedRAG was built to minimize the time and effort spent by clinicians when manually searching for similar medical cases. It automates reasoning and retrieval to assist in medical education and early-stage diagnosis support.
 
 ---
 
 ## 🩺 Project Vision
 
-MedRAG aims to explore how AI can support medical decision-making by:
+MedRAG explores the integration of multimodal AI in medicine by:
 
-* Producing clear, structured diagnostic reasoning from chest X-ray images
-* Finding similar cases from a local image database to support visual interpretation
-* Fetching related medical images and content from the web to expand diagnostic context
+* Producing interpretable, step-wise diagnostic reasoning from chest X-rays
+* Locating visually and semantically similar cases from a local database
+* Fetching relevant medical images and content from trusted online sources
 
 ---
 
@@ -47,9 +53,7 @@ MedRAG aims to explore how AI can support medical decision-making by:
 
 ---
 
----
-
-## 🎥 Live Demo
+## 🔹 Live Demo
 
 ![Live Demo](images/medrag_gif.gif)
 
@@ -59,159 +63,124 @@ MedRAG aims to explore how AI can support medical decision-making by:
 
 ### 🖥️ Frontend Layer: MedRAG Web UI
 
-* Users submit a query or image through the web interface
-* The query is forwarded to the backend for AI processing
+* User inputs query or image
+* Request forwarded to backend agent
 
 ---
 
 ### 🧠 AI Coordination Layer: MedRAG Agent
 
-* Runs on an AWS EC2 instance
-* Controls the full reasoning pipeline
-* Based on input, the agent:
-
-  * Sends the image to reasoning models
-  * Extracts the disease name
-  * Selects and invokes the appropriate tools (retrieval, web search, or both)
+* Runs on AWS EC2
+* Orchestrates all reasoning and retrieval steps
 
 ---
 
-### 🧠 Stage 1 – Chest X-ray Analysis (SageMaker Endpoint 1)
+### 🧠 Stage 1 – Chest X-ray Analysis
 
-#### 🔹 1. medGEMMA Reasoner
+#### 🔹 1. MedGEMMA Reasoner ([Link](https://huggingface.co/Manusinhh/medgemma-finetuned-cxr-reasoning))
 
 * **Input**: Chest X-ray image
-* **Output**: A detailed, structured reasoning chain
+* **Output**: Structured, step-wise diagnostic reasoning
+* **Note**: Built using Insight-V methodology for visual instruction tuning
 
-#### 🔹 2. medGEMMA Summariser
+#### 🔹 2. MedGEMMA Summariser ([Link](https://huggingface.co/Manusinhh/medgemma-finetuned-cxr-summerizer))
 
-* **Input**: Output from the reasoner
-* **Output**: A diagnostic summary (e.g., disease name)
+* **Input**: Reasoning output
+* **Output**: Concise diagnostic label or summary
 
 ---
 
-### 🔍 Stage 2 – Similar Case Retrieval (SageMaker Endpoint 2)
+### 🔍 Stage 2 – Similar Case Retrieval
 
-* **Tool**: medCLIP + FAISS
+* **Tool**: MedCLIP + FAISS
 * **Input**: Disease label
-* **Process**: Vector search in local image database
-* **Output**: Top matching chest X-rays
+* **Output**: Top-matching chest X-rays from local database
 
 ---
 
 ### 🌐 Stage 3 – Web-Based Context Retrieval
 
-* **Tool**: serpAPI
+* **Tool**: serpAPI or Tavily API
 * **Input**: Disease label
-* **Output**: Online medical images and articles for additional context
+* **Output**: Online medical images and reference content
 
 ---
 
 ### 📤 Streaming Results to UI
 
-The AI agent returns results in real time:
+* Real-time updates returned to the interface:
 
-1. Reasoning explanation
-2. Diagnostic summary
-3. Retrieved similar images
-4. Web-based content
-
-All results are shown step by step in the web UI.
+  1. Diagnostic reasoning
+  2. Disease summary
+  3. Similar local images
+  4. External web results
 
 ---
 
 ## 🧠 AI Agent Orchestration
 
-The agent acts as the central controller for the MedRAG workflow. It performs the following:
+### ⟳ Flow:
 
-### 🔁 Step-by-Step Flow:
-
-1. **Input Handling**: Accepts image and/or query
-2. **Reasoning**: Sends image to medGEMMA Reasoner
-3. **Summarization**: Uses the Summariser to get the final disease label
-4. **Tool Selection**:
-
-   * medCLIP for local retrieval
-   * serpAPI for web image and content search
-5. **Response Streaming**: Sends each output step-by-step to the UI
-6. **Domain Enforcement**: Only accepts medical queries; ignores unrelated input
+1. **Input Handling**: Accepts medical image or text query
+2. **Reasoning**: Calls `medgemma-finetuned-cxr-reasoning`
+3. **Summarization**: Calls `medgemma-finetuned-cxr-summerizer`
+4. **Retrieval**: Triggers MedCLIP and serpAPI tools
+5. **Streaming**: Step-wise output to frontend
+6. **Domain Control**: Filters non-medical prompts
 
 ---
 
+## 🌟 Intended Use
 
-## 🎯 Intended Use
-
-MedRAG is designed only for **non-commercial educational and research purposes**. It is not validated for clinical use and should not be used for medical diagnosis or treatment planning.
-
----
-
-## 🛠️ Technologies & Tools Used
-
-### 💻 Core Frameworks & Infrastructure
-
-| Technology        | Purpose                                          |
-| ----------------- | ------------------------------------------------ |
-| **Python**        | Core programming language                        |
-| **FastAPI**       | Web backend (API layer)                          |
-| **LangChain**     | Tool-based reasoning and agent orchestration     |
-| **LangGraph**     | Multi-step agent flow with state management      |
-| **AWS EC2**       | Agent hosting and coordination (inference logic) |
-| **AWS SageMaker** | Hosting MedGEMMA and medCLIP models              |
-| **FAISS**         | Local vector search for image retrieval          |
+This project is **strictly for research and academic purposes**. It is **not intended for clinical diagnosis or treatment** and has not been validated for real-world healthcare use.
 
 ---
+
+## 🛠️ Technologies & Tools
+
+### 💻 Core Frameworks
+
+| Technology    | Purpose                                            |
+| ------------- | -------------------------------------------------- |
+| **Python**    | Core programming                                   |
+| **FastAPI**   | Web backend                                        |
+| **LangChain** | Tool-based orchestration                           |
+| **LangGraph** | Agent state management                             |
+| **AWS EC2**   | Agent hosting                                      |
+| **SageMaker** | Model deployment (Reasoner + Summariser + MedCLIP) |
+| **FAISS**     | Local image similarity search                      |
 
 ### 🧠 AI Models
 
-[Models Uploaded on Huggingface](https://huggingface.co/Manusinhh) - HuggingFace Repo
+| Model Name                            | Role                                             |
+| ------------------------------------- | ------------------------------------------------ |
+| **medgemma-finetuned-cxr-reasoning**  | Generates diagnostic reasoning from CXR images   |
+| **medgemma-finetuned-cxr-summerizer** | Converts reasoning into concise summaries        |
+| **medCLIP**                           | Retrieves similar chest X-rays via vector search |
 
-| Model                   | Role                                                            |
-| ----------------------- | --------------------------------------------------------------- |
-| **medGEMMA Reasoner**   | Generates structured reasoning from chest X-ray images          |
-| **medGEMMA Summariser** | Converts reasoning into a concise diagnostic summary            |
-| **medCLIP**             | Embeds and retrieves similar chest X-rays from a local database |
+### 📆 Dataset
 
----
-
-### 📦 Libraries & APIs
-
-| Library / API            | Purpose                                              |
-| ------------------------ | ---------------------------------------------------- |
-| **transformers**         | Model loading and inference for MedGEMMA and medCLIP |
-| **torch / torchvision**  | Image and tensor processing                          |
-| **openai**               | LLM reasoning fallback or interface        |
-| **serpAPI / Tavily API** | Web search for external images and context           |
-| **python-dotenv**        | Environment variable handling                        |
-| **pydantic**             | Data validation and schema management                |
+| Dataset Name                  | Description                                             |
+| ----------------------------- | ------------------------------------------------------- |
+| **cxr-10k-reasoning-dataset** | Custom dataset for training reasoning and summarization |
 
 ---
 
-### 📊 Dataset
+## 📘 References
 
-[Dataset Uploaded on Huggingface](https://huggingface.co/Manusinhh) - HuggingFace Repo
-
-| Dataset                     | Description                                                            |
-| --------------------------- | ---------------------------------------------------------------------- |
-| **NIH Chest X-ray Dataset** | Public dataset used to fine-tune reasoning models on thoracic findings |
-
----
-
-## 📚 References
-
-MedRAG is built using open research tools and datasets:
-
-* [LLaVA-Med](https://github.com/microsoft/LLaVA-Med) – Instruction-tuned VLM
-* [MedGEMMA](https://huggingface.co/google/medgemma-4b-it) – Fine-tuned chest X-ray model
-* [MedCLIP](https://github.com/UCSD-AI4H/MedCLIP) – Image-text embedding for medical retrieval
-* [LangChain](https://github.com/langchain-ai/langchain) – Tool orchestration framework
-* [LangGraph](https://github.com/langchain-ai/langgraph) – Agent state management
-* [SerpAPI](https://serpapi.com/) / [Tavily API](https://www.tavily.com/) – Medical web search tools
-* **NIH Chest X-ray Dataset** – Dataset used for training and reasoning generation
+* [CXR Reasoning Dataset](https://huggingface.co/datasets/Manusinhh/cxr-10k-reasoning-dataset)
+* [Fine-tuned MedGEMMA Reasoner](https://huggingface.co/Manusinhh/medgemma-finetuned-cxr-reasoning)
+* [Fine-tuned MedGEMMA Summariser](https://huggingface.co/Manusinhh/medgemma-finetuned-cxr-summerizer)
+* [MedGEMMA Base](https://huggingface.co/google/medgemma-4b-it)
+* [Insight-V (GitHub)](https://github.com/JoshuaChou2018/Insight-V)
+* [Insight-V (Paper)](https://arxiv.org/abs/2312.11511)
+* [LLaVA-Med](https://github.com/microsoft/LLaVA-Med)
+* [MedCLIP](https://github.com/UCSD-AI4H/MedCLIP)
+* [LangChain](https://github.com/langchain-ai/langchain)
+* [LangGraph](https://github.com/langchain-ai/langgraph)
 
 ---
 
 ## ⚠️ Disclaimer
 
-This is a research prototype. **MedRAG is not a diagnostic tool** and must not be used in clinical or real-world healthcare decisions.
-
----
+This is a **research prototype only**. Do **not use for clinical or real-world medical decision-making**.
