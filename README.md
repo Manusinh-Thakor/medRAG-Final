@@ -178,7 +178,7 @@ This project is **strictly for research and academic purposes**. It is **not int
 * [Fine-tuned MedGEMMA Summariser](https://huggingface.co/Manusinhh/medgemma-finetuned-cxr-summerizer)
 * [MedGEMMA Base](https://huggingface.co/google/medgemma-4b-it)
 * [Insight-V (GitHub)](https://github.com/JoshuaChou2018/Insight-V)
-* [Insight-V (Paper)](https://arxiv.org/abs/2312.11511)
+* [Insight-V (Paper)](https://arxiv.org/abs/2411.14432)
 * [MIMIC-CXR Dataset](https://physionet.org/content/mimic-cxr/2.0.0/)
 * [LLaVA-Med](https://github.com/microsoft/LLaVA-Med)
 * [MedCLIP](https://github.com/UCSD-AI4H/MedCLIP)
