@@ -25,7 +25,7 @@ Details of the dataset preparation, formatting, and annotation guidelines are av
 The reasoning model design and fine-tuning pipeline are inspired by the **Insight-V** methodology:
 
 > [Insight-V GitHub](https://github.com/JoshuaChou2018/Insight-V)
-> [Insight-V Paper](https://arxiv.org/abs/2312.11511)
+> [Insight-V Paper](https://arxiv.org/abs/2411.14432)
 
 ---
 
